@@ -4444,7 +4444,7 @@ console.log(price - qty);</code></pre>
 
 <script>
 (function () {
-  var TOTAL = 30;
+  var TOTAL = document.querySelectorAll('.ex').length;   /* من الصفحة، مش رقماً ثابتاً */
   var AR = ['٠','١','٢','٣','٤','٥','٦','٧','٨','٩'];
   function ar(n) { return String(n).replace(/\d/g, function (x) { return AR[+x]; }); }
   var NLC = String.fromCharCode(10);
@@ -4747,11 +4747,13 @@ console.log(price - qty);</code></pre>
       cells.push(pad2(n) + ' ' + KEYS6[picked.value] + (ok ? '+' : '-') + ' ' + pk);
     });
 
-    /* أربعة صفوف × سبعة أعمدة. كل خانة تمانى محارف بالظبط، والفاصل | —
+    /* سبعة أعمدة، وعدد الصفوف بيتحسب من عدد الأسئلة — ورقة ٢٨ سؤالاً
+       بتطلع أربعة صفوف وورقة ٨ بتطلع صفين، من غير سطور فاضية.
+       وكل خانة تمانى محارف بالظبط، والفاصل | —
        عشان الأعمدة تفضل مقروءة حتى لو الخط اللى بيعرضها مش ثابت العرض. */
-    var rows = [];
-    for (var r = 0; r < 4; r++) {
-      rows.push(cells.slice(r * 7, r * 7 + 7).join(' | '));
+    var rows = [], PER = 7;
+    for (var r = 0; r * PER < cells.length; r++) {
+      rows.push(cells.slice(r * PER, r * PER + PER).join(' | '));
     }
 
     var projects = prj.map(function (ex) {
